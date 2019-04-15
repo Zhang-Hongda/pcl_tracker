@@ -3,19 +3,16 @@ README
 
 ****
 
-|Author|ZhangHongda|
+| | |
 |---|---
+|Author|ZhangHongda|
 |E-mail|2210010444@qq.com
-
-
-    
-
 
 ****
 # pcl_tracker
 ### ZhangHongda, Harbin Institute of Technology
 
-An ROS package for tracking 3D-printed maker. The pose information of the marker is published through tf message.
+An ROS package for tracking a 3D-printed maker. The pose information of the marker is published through tf message.
 ### Installation
 Step 1: clone the repository into your own workspace
 ```
@@ -40,7 +37,7 @@ source ${PATH_TO YOUR_WORKSPACE_FOLDER}/devel/setup.bash
  * The length of the rod below the center sphere can be customized by modifying the "tool_length" parameters in "[param](./param)/config.yaml".  
  
 ![finalresult.PNG](./models/finalresult_.PNG "marker")
-
+a
 ### Usage 
 To launch the program, run
 ```
