@@ -5,9 +5,9 @@ README
 |Author|ZhangHongda|
 |------|-----------------|
 |E-mail|2210010444@qq.com|
+|Institute|Harbin Institute of Technology|
 ****
 # pcl_tracker
-### ZhangHongda, Harbin Institute of Technology
 
 An ROS package for tracking a 3D-printed maker. The pose information of the marker is published through tf message.
 ### Installation
