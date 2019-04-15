@@ -28,8 +28,8 @@ Step 3: activate the workspace
 source ${PATH_TO YOUR_WORKSPACE_FOLDER}/devel/setup.bash
 ```
 ### Preparations
-Build your own marker with a 3D-printer.
-NOTE:
+__Build your own marker with a 3D-printer.__
+___NOTE:___
     The models of the marker can be found in the "models" folder.  
     The color of the spheres on the marker should be the same, and it should be different from the color of the working platform.  
     Users can build there own marker on 3D modeling softwares such as Solidworks, Pro/E, UG, CATIA, etc.  
