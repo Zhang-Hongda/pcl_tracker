@@ -3,7 +3,7 @@ README
 
 ****
 |Author|ZhangHongda|
-|E-mail|2210010444@qq.com
+|E-mail|2210010444@qq.com|
 ****
 # pcl_tracker
 ### ZhangHongda, Harbin Institute of Technology
