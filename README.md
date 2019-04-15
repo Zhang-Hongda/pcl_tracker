@@ -64,4 +64,4 @@ The position of the end of the marker can also be acquired.
 rosrun tf tf_echo /kinect2_link /tool0
 ```
 The output of the program should look like this:
-
+![markertracker.gif](./gif/markertracker.gif "program output")
