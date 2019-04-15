@@ -1,0 +1,11 @@
+<launch>
+    <arg name="topic" default="/kinect2/qhd/points"/>
+    <rosparam file="$(find pcl_tracker)/param/config.yaml" command="load"/>
+   
+    <include file="$(find kinect2_bridge)/launch/kinect2_bridge.launch">
+        <arg name="publish_tf" value="true"/>
+        <arg name="output" value="log"/>
+    </include>
+    <node name="marker_tracker_node" type="marker_tracker_node" pkg="pcl_tracker" args="input:=$(arg topic)" output="screen" respawn="true" >
+    </node>
+</launch>

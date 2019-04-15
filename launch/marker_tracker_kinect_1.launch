@@ -1,0 +1,6 @@
+<launch>
+    <include file="$(find openni_launch)/launch/openni.launch">
+        <arg name="depth_registration" value="true"/>
+    </include>
+    <node name="marker_tracker_node" type="marker_tracker_node" pkg="pcl_tracker" args="input:=/camera/depth_registered/points"  launch-prefix="xterm -e"/>
+</launch>

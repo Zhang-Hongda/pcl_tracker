@@ -1,0 +1,8 @@
+<launch>
+    <!--include file="$(find pcl_tracker)/launch/tf_base2camera.launch"/-->
+    <node name="transform_publisher_node" pkg="transform_publisher" type="transform_publisher" />
+	<include file="$(find pcl_tracker)/launch/marker_tracker.launch"/>
+	<include file="$(find pcl_tracker)/launch/ur5_bringup.launch"> 
+		<arg name="show_rviz" value="true"/>
+	</include>
+</launch>

@@ -1,0 +1,5 @@
+<launch>
+<node name="tf_base2camera" pkg="learning_tf" type="tf_base2camera">
+    <rosparam file="$(find learning_tf)/param/base2camera.yaml" command="load"/>
+</node>
+</launch>
