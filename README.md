@@ -31,12 +31,12 @@ Step 3: activate the workspace
 source ${PATH_TO YOUR_WORKSPACE_FOLDER}/devel/setup.bash
 ```
 ### Preparations
+![finalresult.PNG](./models/finalresult.PNG "marker")
 * __Build your own marker with a 3D-printer.__  
     1. The models of the marker can be found in the "[models](./models)" folder. Users can also build there own marker on 3D modeling softwares such as Solidworks, Pro/E, UG, CATIA, etc.   
     2. The `color` of the spheres on the marker should be the same, and it should be different from the color of the working platform (green is recommended).  
     3. The `diameter` of the colored spheres should be greater than 30 millimeters (preferably between 30 mm and 40 mm).
     4. The `length` of the two sticks that connect the spheres should be different. The difference between the shorter rod and the longer one shoud be about 15 milliters, but both of them shoud be longer than 10mm.  
-![finalresult.PNG](./models/finalresult.PNG "marker")
  __NOTE:__  
  * The length of the rod below the center sphere can be customized by modifying the "tool_length" parameters in "[param](./param)/config.yaml".
 
