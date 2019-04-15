@@ -21,10 +21,10 @@ cd ${PATH_TO YOUR_WORKSPACE_FOLDER}/src
 git clone https://github.com/Zhang-Hongda/pcl_tracker
 ```
 Step 2: building
-'''
+```
 catkin_make
-'''
+```
 Step 3: activate the workspace
-'''
+```
 source ${PATH_TO YOUR_WORKSPACE_FOLDER}/devel/setup.bash
-'''
+```
