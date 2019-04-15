@@ -28,3 +28,10 @@ Step 3: activate the workspace
 ```
 source ${PATH_TO YOUR_WORKSPACE_FOLDER}/devel/setup.bash
 ```
+
+### Usage
+To launch the program, run
+```
+roslaunch pcl_tracker demo.launch
+```
+
