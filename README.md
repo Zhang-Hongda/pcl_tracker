@@ -31,7 +31,7 @@ source ${PATH_TO YOUR_WORKSPACE_FOLDER}/devel/setup.bash
     3. The `diameter` of the colored spheres should be greater than 30 millimeters (preferably between 30 mm and 40 mm).
     4. The `length` of the two sticks that connect the spheres should be different. The difference between the shorter rod and the longer one shoud be about 15 milliters, but both of them shoud be longer than 10mm.  
  __NOTE:__  
- * The length of the rod below the center sphere can be customized by modifying the "tool_length" parameters in "[param](./param)/config.yaml".  
+ * The length of the rod below the center sphere can be customized by modifying the "tool_length" parameter in "[param](./param)/config.yaml".  
  
 ![finalresult.PNG](./models/finalresult_.PNG "marker")
 a
