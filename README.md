@@ -44,7 +44,7 @@ source ${PATH_TO YOUR_WORKSPACE_FOLDER}/devel/setup.bash
 ```
 
 ### Usage 
-To launch the program, run
+To launch the program, run:
 ```
 roslaunch pcl_tracker marker_tracker.launch
 ```
