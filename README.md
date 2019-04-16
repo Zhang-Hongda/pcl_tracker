@@ -7,6 +7,12 @@ pcl_tracker
 |E-mail|2210010444@qq.com|
 |Institute|Harbin Institute of Technology|
 ****
+
+### Description
+An ROS package for tracking a 3D-printed maker. The pose information of the marker is published through tf message. A Kinectv2 sensor is required.
+### Dependencies
+- ROS kinetic
+- PCL1.7
 ### Preparations
 * __Build your own marker with a 3D-printer.__  
     1. The models of the marker can be found in the "[models](./models)" folder. Users can also build there own marker on 3D modeling softwares such as Solidworks, Pro/E, UG, CATIA, etc.   
@@ -22,11 +28,6 @@ pcl_tracker
 
 ![finalresult.PNG](./models/finalresult_.PNG "marker")
 
-### Description
-An ROS package for tracking a 3D-printed maker. The pose information of the marker is published through tf message. A Kinectv2 sensor is required.
-### Dependencies
-- ROS kinetic
-- PCL1.7
 ### Installation
 Step 1: clone the repository into your own workspace
 ```
