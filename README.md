@@ -34,11 +34,11 @@ source ${PATH_TO YOUR_WORKSPACE_FOLDER}/devel/setup.bash
  * The length of the rod below the center sphere can be customized by modifying the "tool_length" parameter in "[param](./param)/config.yaml".  
  
 ![finalresult.PNG](./models/finalresult_.PNG "marker")
-a
+
 ### Usage 
 To launch the program, run
 ```
-roslaunch pcl_tracker demo.launch
+roslaunch pcl_tracker marker_tracker.launch
 ```
 __NOTE:__  
 
