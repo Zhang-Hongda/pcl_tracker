@@ -1,4 +1,4 @@
-README
+pcl_tracker
 ==============================
 
 ****
@@ -7,9 +7,12 @@ README
 |E-mail|2210010444@qq.com|
 |Institute|Harbin Institute of Technology|
 ****
-# pcl_tracker
 
+### Description
 An ROS package for tracking a 3D-printed maker. The pose information of the marker is published through tf message. A Kinectv2 sensor is required.
+### Dependencies
+- ROS kinetic
+- PCL1.7
 ### Installation
 Step 1: clone the repository into your own workspace
 ```
