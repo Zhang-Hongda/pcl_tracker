@@ -9,7 +9,7 @@ README
 ****
 # pcl_tracker
 
-An ROS package for tracking a 3D-printed maker. The pose information of the marker is published through tf message.
+An ROS package for tracking a 3D-printed maker. The pose information of the marker is published through tf message. A Kinectv2 sensor is required.
 ### Installation
 Step 1: clone the repository into your own workspace
 ```
@@ -30,9 +30,13 @@ source ${PATH_TO YOUR_WORKSPACE_FOLDER}/devel/setup.bash
     2. The `color` of the spheres on the marker should be the same, and it should be different from the color of the working platform (green is recommended).  
     3. The `diameter` of the colored spheres should be greater than 30 millimeters (preferably between 30 mm and 40 mm).
     4. The `length` of the two sticks that connect the spheres should be different. The difference between the shorter rod and the longer one shoud be about 15 milliters, but both of them shoud be longer than 10mm.  
+
+* __Install drivers for Kinectv2__  
+    * Install [libfreenect2](https://github.com/OpenKinect/libfreenect2) and [iai_kinect2](https://github.com/code-iai/iai_kinect2).
+    
  __NOTE:__  
  * The length of the rod below the center sphere can be customized by modifying the "tool_length" parameter in "[param](./param)/config.yaml".  
- 
+
 ![finalresult.PNG](./models/finalresult_.PNG "marker")
 
 ### Usage 
