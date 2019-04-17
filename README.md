@@ -69,4 +69,4 @@ rosrun tf tf_echo /kinect2_link /tool0
 The output of the program should look like this:
 ![markertracker.gif](./gif/markertracker.gif "program output")
 ### Video
-* [![marker tracker viedo](https://img.youtube.com/vi/WdobYXdcNEA/0.jpg)](https://www.youtube.com/watch?v=WdobYXdcNEA)
+[![marker tracker viedo](https://img.youtube.com/vi/WdobYXdcNEA/0.jpg)](https://www.youtube.com/watch?v=WdobYXdcNEA)
