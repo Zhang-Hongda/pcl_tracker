@@ -60,12 +60,14 @@ hsvCloudPtr cloud_hsv_filtered(new hsvCloud());
 boost::shared_ptr<pcl::visualization::PCLVisualizer> hsvviewer = cloud_functions::hsvVis("hsv cloud");
 boost::shared_ptr<pcl::visualization::PCLVisualizer> filtered_viewer;
 boost::shared_ptr<pcl::visualization::PCLVisualizer> clustered_viewer;
+boost::shared_ptr<pcl::visualization::PCLVisualizer> original_viewer;
 
 Eigen::Affine3f t = Eigen::Affine3f::Identity();
 
 double tool_length = 0.15;
 bool show_filtered_viewer = true;
 bool show_clustered_viewer = true;
+bool show_original_viewer = true;
 
 void pp_callback_hsv(const pcl::visualization::PointPickingEvent &event, void *viewer_void)
 {
@@ -103,12 +105,14 @@ void cloud_cb(const sensor_msgs::PointCloud2ConstPtr &input)
 
   std::vector<hsvCloudPtr> sphere_cloud_set;
   std::vector<pcl::ModelCoefficientsPtr> coefficients_sphere_set;
-  pcl::fromROSMsg(*input, *cloud); //关键的一句数据的转换
+  pcl::fromROSMsg(*input, *cloud); 
   // pcl::io::savePCDFileASCII("/home/eric/work_space/test_ws/src/pcl_tracker/data/workspace.pcd", *cloud);
+  if (show_original_viewer)
+    cloud_functions::update_pointcloud(original_viewer, cloud);
   std::vector<int> mapping;
   pcl::removeNaNFromPointCloud(*cloud, *cloud_filtered, mapping);
   // pcl::CropBox<RefPointType> crop;
-  // crop.setMin(Eigen::Vector4f(-2.0, -2.0, 0.0, 1.0)); //给定立体空间
+  // crop.setMin(Eigen::Vector4f(-2.0, -2.0, 0.0, 1.0));
   // crop.setMax(Eigen::Vector4f(2.0, 2.0, 1.5, 1.0));
   // crop.setInputCloud(cloud);
   // crop.setUserFilterValue(0.1f);
@@ -137,8 +141,8 @@ void cloud_cb(const sensor_msgs::PointCloud2ConstPtr &input)
         tf::transformEigenToTF(t_tool.cast<double>(), transform_tool);
         br->sendTransform(tf::StampedTransform(transform_marker, ros::Time::now(), "kinect2_link", "marker"));
         br_tool->sendTransform(tf::StampedTransform(transform_tool, ros::Time::now(), "kinect2_link", "tool"));
-        hsvviewer->addCoordinateSystem(0.1, t, "marker", 0);
-        hsvviewer->addCoordinateSystem(0.1, t_tool, "tool", 0);
+        hsvviewer->addCoordinateSystem(0.2, t, "marker", 0);
+        hsvviewer->addCoordinateSystem(0.2, t_tool, "tool", 0);
       }
       for (std::vector<pcl::ModelCoefficientsPtr>::const_iterator it = coefficients_sphere_set.begin(); it != coefficients_sphere_set.end(); it++)
       {
@@ -160,6 +164,7 @@ void cloud_cb(const sensor_msgs::PointCloud2ConstPtr &input)
           i++;
           pcl::visualization::PointCloudColorHandlerRandom<pcl::PointXYZHSV> handler(*it);
           clustered_viewer->addPointCloud<pcl::PointXYZHSV>(*it, handler, ss.str());
+          clustered_viewer->setPointCloudRenderingProperties (pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 5, ss.str());
           ss.str("");
         }
       }
@@ -167,8 +172,8 @@ void cloud_cb(const sensor_msgs::PointCloud2ConstPtr &input)
     }
   }
   cloud_functions::update_pointcloud(hsvviewer, cloud_hsv);
-  // sensor_msgs::PointCloud2 output;        //声明的输出的点云的格式
-  // pcl::toROSMsg(*cloud_filtered, output); //第一个参数是输入，后面的是输出
+  // sensor_msgs::PointCloud2 output;        
+  // pcl::toROSMsg(*cloud_filtered, output); 
   // pub.publish(output);
 }
 int main(int argc, char **argv)
@@ -179,16 +184,20 @@ int main(int argc, char **argv)
   nh.getParam("tool_length", tool_length);
   nh.getParam("show_filtered_viewer", show_filtered_viewer);
   nh.getParam("show_clustered_viewer", show_clustered_viewer);
+  nh.getParam("show_original_viewer", show_original_viewer);
   ROS_INFO("tool_length: %f", tool_length);
   ROS_INFO("show_fitered_viewer: %s", std::to_string(show_filtered_viewer).c_str());
   ROS_INFO("show_clustered_viewer: %s", std::to_string(show_clustered_viewer).c_str());
+  ROS_INFO("show_original_viewer: %s", std::to_string(show_original_viewer).c_str());
   if (show_clustered_viewer)
     clustered_viewer = cloud_functions::hsvVis("clustered cloud");
   if (show_filtered_viewer)
     filtered_viewer = cloud_functions::hsvVis("filtered cloud");
+  if (show_original_viewer)
+    original_viewer = cloud_functions::rgbVis("original cloud");
+
   br.reset(new tf::TransformBroadcaster());
   br_tool.reset(new tf::TransformBroadcaster());
-
   hsvviewer->registerPointPickingCallback(pp_callback_hsv, (void *)&hsvviewer);
   hsvviewer->setCameraPosition(0, 0, -1.0, 0, 0, 0, 0);
   // hsvviewer->addCoordinateSystem(0.2,0,0,0,"camera",0);

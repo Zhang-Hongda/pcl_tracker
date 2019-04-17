@@ -26,7 +26,7 @@ namespace cloud_functions
     viewer->setBackgroundColor (0, 0, 0);
     pcl::visualization::PointCloudColorHandlerRGBField<RefPointType> rgb(cloud);
     viewer->addPointCloud<RefPointType> (cloud, rgb, "sample cloud");
-    viewer->setPointCloudRenderingProperties (pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 3, "sample cloud");
+    viewer->setPointCloudRenderingProperties (pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 5, "sample cloud");
     viewer->addCoordinateSystem (1.0);
     viewer->initCameraParameters ();
     viewer->setCameraPosition(0, 0, -1.5, 0, -1, 0, 0);
@@ -48,7 +48,7 @@ namespace cloud_functions
     viewer->removeAllPointClouds();
     pcl::visualization::PointCloudColorHandlerRGBField<RefPointType> rgb(cloud_);
     viewer->addPointCloud<RefPointType> (cloud_, rgb, "sample cloud");
-    viewer->setPointCloudRenderingProperties (pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 3, "sample cloud");
+    viewer->setPointCloudRenderingProperties (pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 5, "sample cloud");
     viewer->spinOnce(100);
   }
 
@@ -58,7 +58,7 @@ namespace cloud_functions
     viewer->setBackgroundColor (0, 0, 0);
     pcl::visualization::PointCloudColorHandlerHSVField<hsvRefPointType> hsv(cloud);
     viewer->addPointCloud<hsvRefPointType> (cloud, hsv, "sample cloud");
-    viewer->setPointCloudRenderingProperties (pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 3, "sample cloud");
+    viewer->setPointCloudRenderingProperties (pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 5, "sample cloud");
     viewer->addCoordinateSystem (1.0);
     viewer->initCameraParameters ();
     // viewer->registerPointPickingCallback (pp_callback_hsv,(void*)&viewer); 
@@ -79,7 +79,7 @@ namespace cloud_functions
     viewer->removeAllPointClouds();
     pcl::visualization::PointCloudColorHandlerHSVField<hsvRefPointType> hsv(cloud_);
     viewer->addPointCloud<hsvRefPointType> (cloud_, hsv, "sample cloud");
-    viewer->setPointCloudRenderingProperties (pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 3, "sample cloud");
+    viewer->setPointCloudRenderingProperties (pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 5, "sample cloud");
     viewer->spinOnce(100);
   }
   void PointCloudXYZRGBtoXYZHSV(Cloud& in, hsvCloud& out)
