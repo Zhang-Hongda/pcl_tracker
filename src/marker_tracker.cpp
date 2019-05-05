@@ -128,7 +128,7 @@ void cloud_cb(const sensor_msgs::PointCloud2ConstPtr &input)
   if (show_filtered_viewer)
     cloud_functions::update_pointcloud(filtered_viewer, cloud_hsv_filtered);
 
-  if (cloud_hsv_filtered->points.size() < cloud_hsv->points.size() * 0.3 && cloud_hsv_filtered->points.size() > 100)
+  if (cloud_hsv_filtered->points.size() < cloud_hsv->points.size() * 0.3 && cloud_hsv_filtered->points.size() > 50)
   {
     if (ball_extraction(cloud_hsv_filtered, cloud_clusters, sphere_cloud_set, coefficients_sphere_set))
     {
