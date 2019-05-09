@@ -21,9 +21,9 @@
 #include <pcl/filters/crop_box.h>
 #include <pcl/io/io.h>
 #include <pcl/io/pcd_io.h>
-#include <pcl/sample_consensus/model_types.h>  //分割模型的头文件
-#include <pcl/sample_consensus/method_types.h> //采样一致性的方法
-#include <pcl/segmentation/sac_segmentation.h> //ransac分割法
+#include <pcl/sample_consensus/model_types.h>
+#include <pcl/sample_consensus/method_types.h>
+#include <pcl/segmentation/sac_segmentation.h>
 #include <Eigen/Core>
 #include <Eigen/Geometry>
 
