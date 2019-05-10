@@ -4,7 +4,6 @@
 
 #include <pcl/ModelCoefficients.h>
 #include <pcl/point_types.h>
-#include <pcl/io/pcd_io.h>//io
 #include <pcl/filters/extract_indices.h>
 #include <pcl/filters/voxel_grid.h>
 #include <pcl/filters/passthrough.h>
@@ -63,12 +62,12 @@ ball_extraction (hsvCloudPtr cloud, std::vector<hsvCloudPtr>& cloud_clusters, st
   // hsvCloudPtr cloud_cluster_all (new hsvCloud());
   // cloud_cluster_all.reset(new hsvCloud());
   cloud_clusters.clear();
-  pcl::PassThrough<hsvRefPointType> pass;
-  pass.setInputCloud (cloud);
-  pass.setFilterFieldName ("z");
-  pass.setFilterLimits (0.4, 2.0);
-  pass.filter (*cloud_filtered); 
-
+  // pcl::PassThrough<hsvRefPointType> pass;
+  // pass.setInputCloud (cloud);
+  // pass.setFilterFieldName ("z");
+  // pass.setFilterLimits (0.4, 2.0);
+  // pass.filter (*cloud_filtered); 
+  cloud_filtered = cloud;
   pcl::search::KdTree<hsvRefPointType>::Ptr tree (new pcl::search::KdTree<hsvRefPointType>);
   tree->setInputCloud (cloud_filtered);
   std::vector<pcl::PointIndices> cluster_indices;
@@ -78,8 +77,8 @@ ball_extraction (hsvCloudPtr cloud, std::vector<hsvCloudPtr>& cloud_clusters, st
   ec.setMaxClusterSize (25000);                    
   ec.setSearchMethod (tree);                       
   ec.setInputCloud (cloud_filtered);
-  ec.extract (cluster_indices);           
-
+  ec.extract (cluster_indices);
+  
   // std::cout << "Find " << cluster_indices.size() << " balls" << "\n";
   int j = 0;
   for (std::vector<pcl::PointIndices>::const_iterator it = cluster_indices.begin (); it != cluster_indices.end (); ++it)
