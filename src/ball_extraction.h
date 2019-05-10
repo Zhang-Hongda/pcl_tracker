@@ -93,7 +93,7 @@ ball_extraction (hsvCloudPtr cloud, std::vector<hsvCloudPtr>& cloud_clusters, st
     cloud_cluster->width = cloud_cluster->points.size ();
     cloud_cluster->height = 1;
     cloud_cluster->is_dense = true;
-    fit_sphere(cloud_cluster, sphere_cloud, coefficients_sphere);
+    fit_sphere(cloud_cluster, sphere_cloud, coefficients_sphere);//fit sphere and save coefficients
     sphere_cloud_set.push_back(sphere_cloud);
     coefficients_sphere_set.push_back(coefficients_sphere);
     cloud_clusters.push_back(cloud_cluster);
