@@ -117,7 +117,6 @@ namespace cloud_functions
     float LeafeSize = LS;
     pcl::VoxelGrid<RefPointType> filter;
     filter.setInputCloud(input_cloud);
-    // 设置体素栅格的大小为 1x1x1cm
     filter.setLeafSize(LeafeSize, LeafeSize, LeafeSize);
     filter.filter(*output_cloud);
   }
@@ -127,17 +126,17 @@ namespace cloud_functions
     hMax = boundary[0]; hMin = boundary[1]; sMax = boundary[2]; 
     sMin = boundary[3]; vMax = boundary[4]; vMin = boundary[5];
     pcl::PassThrough<hsvRefPointType> pass;
-    pass.setInputCloud (cloud);            //设置输入点云
-    pass.setFilterFieldName ("h");         //设置过滤时所需要点云类型的Z字段
-    pass.setFilterLimits (hMin, hMax);        //设置在过滤字段的范围
+    pass.setInputCloud (cloud);
+    pass.setFilterFieldName ("h");
+    pass.setFilterLimits (hMin, hMax);
     pass.filter(*cloud_filtered);
-    pass.setInputCloud (cloud_filtered);            //设置输入点云
-    pass.setFilterFieldName ("s");         //设置过滤时所需要点云类型的Z字段
-    pass.setFilterLimits (sMin, sMax);        //设置在过滤字段的范围
+    pass.setInputCloud (cloud_filtered);
+    pass.setFilterFieldName ("s");
+    pass.setFilterLimits (sMin, sMax);
     pass.filter(*cloud_filtered);
-    pass.setInputCloud (cloud_filtered);            //设置输入点云
-    pass.setFilterFieldName ("v");         //设置过滤时所需要点云类型的Z字段
-    pass.setFilterLimits (vMin, vMax);        //设置在过滤字段的范围
+    pass.setInputCloud (cloud_filtered);
+    pass.setFilterFieldName ("v");
+    pass.setFilterLimits (vMin, vMax);
     pass.filter(*cloud_filtered);
   }
   template<typename T>

@@ -3,41 +3,12 @@
 #include <tf_conversions/tf_eigen.h>
 #include <tf/transform_broadcaster.h>
 #include <eigen_conversions/eigen_msg.h>
-
 #include <iostream>
 #include <sensor_msgs/PointCloud2.h>
-#include <pcl_conversions/pcl_conversions.h> // PCL specific includes
-#include <pcl/conversions.h>
-#include <pcl/point_cloud.h>
-#include <pcl/point_types.h>
-#include <pcl/point_types_conversion.h>
-#include <pcl/visualization/pcl_visualizer.h>
-#include <pcl/filters/passthrough.h>
-#include <pcl/filters/voxel_grid.h>
-#include <pcl/ModelCoefficients.h>
-#include <pcl/filters/project_inliers.h>
-#include <pcl/filters/extract_indices.h>
-#include <pcl/filters/conditional_removal.h>
-#include <pcl/filters/crop_box.h>
-#include <pcl/io/io.h>
-#include <pcl/io/pcd_io.h>
-#include <pcl/sample_consensus/model_types.h>
-#include <pcl/sample_consensus/method_types.h>
-#include <pcl/segmentation/sac_segmentation.h>
-#include <Eigen/Core>
-#include <Eigen/Geometry>
-
+#include <pcl_conversions/pcl_conversions.h>
 #include "cloud_functions.h"
 #include "ball_extraction.h"
 #include "get_position.h"
-
-typedef pcl::PointXYZRGB RefPointType;
-typedef pcl::PointCloud<pcl::PointXYZRGB> Cloud;
-typedef Cloud::Ptr CloudPtr;
-typedef Cloud::ConstPtr CloudConstPtr;
-typedef pcl::PointXYZHSV hsvRefPointType;
-typedef pcl::PointCloud<pcl::PointXYZHSV> hsvCloud;
-typedef hsvCloud::Ptr hsvCloudPtr;
 
 ros::Publisher pub;
 tf::Transform transform_marker;
@@ -97,7 +68,6 @@ void cloud_cb(const sensor_msgs::PointCloud2ConstPtr &input)
   cloud_filtered.reset(new Cloud());
   cloud_hsv.reset(new hsvCloud());
   cloud_hsv_filtered.reset(new hsvCloud());
-  // hsvCloudPtr cloud_cluster_all(new hsvCloud());
   std::vector<hsvCloudPtr> cloud_clusters;
   hsvviewer->removeAllShapes();
   hsvviewer->removeCoordinateSystem("marker");
@@ -111,13 +81,6 @@ void cloud_cb(const sensor_msgs::PointCloud2ConstPtr &input)
     cloud_functions::update_pointcloud(original_viewer, cloud);
   std::vector<int> mapping;
   pcl::removeNaNFromPointCloud(*cloud, *cloud_filtered, mapping);
-  // pcl::CropBox<RefPointType> crop;
-  // crop.setMin(Eigen::Vector4f(-2.0, -2.0, 0.0, 1.0));
-  // crop.setMax(Eigen::Vector4f(2.0, 2.0, 1.5, 1.0));
-  // crop.setInputCloud(cloud);
-  // crop.setUserFilterValue(0.1f);
-  // crop.setKeepOrganized(true);
-  // crop.filter(*cloud_filtered);
   // cloud_functions::CloudDownSample<RefPointType>(cloud_filtered, cloud_filtered, 0.005);
   cloud_functions::PointCloudXYZRGBtoXYZHSV(*cloud_filtered, *cloud_hsv);
   std::vector<float> boundary;
@@ -141,8 +104,8 @@ void cloud_cb(const sensor_msgs::PointCloud2ConstPtr &input)
         tf::transformEigenToTF(t_tool.cast<double>(), transform_tool);
         br->sendTransform(tf::StampedTransform(transform_marker, ros::Time::now(), "kinect2_link", "marker"));
         br_tool->sendTransform(tf::StampedTransform(transform_tool, ros::Time::now(), "kinect2_link", "tool"));
-        hsvviewer->addCoordinateSystem(0.2, t, "marker", 0);
-        hsvviewer->addCoordinateSystem(0.2, t_tool, "tool", 0);
+        hsvviewer->addCoordinateSystem(0.3, t, "marker", 0);
+        hsvviewer->addCoordinateSystem(0.3, t_tool, "tool", 0);
       }
       for (std::vector<pcl::ModelCoefficientsPtr>::const_iterator it = coefficients_sphere_set.begin(); it != coefficients_sphere_set.end(); it++)
       {
@@ -168,7 +131,6 @@ void cloud_cb(const sensor_msgs::PointCloud2ConstPtr &input)
           ss.str("");
         }
       }
-      // cloud_functions::update_pointcloud(clustered_viewer, cloud_cluster_all);
     }
   }
   cloud_functions::update_pointcloud(hsvviewer, cloud_hsv);
