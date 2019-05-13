@@ -78,9 +78,9 @@ ball_extraction (hsvCloudPtr cloud, std::vector<hsvCloudPtr>& cloud_clusters, st
   ec.setSearchMethod (tree);                       
   ec.setInputCloud (cloud_filtered);
   ec.extract (cluster_indices);
-  
+
   // std::cout << "Find " << cluster_indices.size() << " balls" << "\n";
-  int j = 0;
+  int cluster_number = 0;
   for (std::vector<pcl::PointIndices>::const_iterator it = cluster_indices.begin (); it != cluster_indices.end (); ++it)
   {
     hsvCloudPtr cloud_cluster (new hsvCloud());
@@ -96,17 +96,18 @@ ball_extraction (hsvCloudPtr cloud, std::vector<hsvCloudPtr>& cloud_clusters, st
     sphere_cloud_set.push_back(sphere_cloud);
     coefficients_sphere_set.push_back(coefficients_sphere);
     cloud_clusters.push_back(cloud_cluster);
-    j++;
+    cluster_number++;
   // *cloud_cluster_all += *cloud_cluster;
   }
-  std::vector<double> radius;
-  for(std::vector<pcl::ModelCoefficientsPtr>::const_iterator it = coefficients_sphere_set.begin();
-    it != coefficients_sphere_set.end(); it++)
-    radius.push_back((*it)->values[3]);
-  if (radius.size() == 0 || *std::max_element(radius.begin(), radius.end()) > 0.02)
-    return false;
-  else
-    return true;
+  return cluster_number == 3;
+  // std::vector<double> radius;
+  // for(std::vector<pcl::ModelCoefficientsPtr>::const_iterator it = coefficients_sphere_set.begin();
+  //   it != coefficients_sphere_set.end(); it++)
+  //   radius.push_back((*it)->values[3]);
+  // if (radius.size() == 0 || *std::max_element(radius.begin(), radius.end()) > 0.02)
+  //   return false;
+  // else
+  //   return true;
 }
 #endif //BALL_EXTRACTION_H
 

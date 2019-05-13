@@ -75,17 +75,17 @@ public:
   void filter(pcl::PointCloud<hsvRefPointType>::Ptr cloud_filtered)
   {
     cloud_filtered_ = cloud_filtered;
-    pass.setInputCloud (cloud_);            //设置输入点云
-    pass.setFilterFieldName ("h");         //设置过滤时所需要点云类型的Z字段
-    pass.setFilterLimits (hMin_, hMax_);        //设置在过滤字段的范围
+    pass.setInputCloud (cloud_);
+    pass.setFilterFieldName ("h");
+    pass.setFilterLimits (hMin_, hMax_);
     pass.filter(*cloud_filtered_);
-    pass.setInputCloud (cloud_filtered_);            //设置输入点云
-    pass.setFilterFieldName ("s");         //设置过滤时所需要点云类型的Z字段
-    pass.setFilterLimits (sMin_, sMax_);        //设置在过滤字段的范围
+    pass.setInputCloud (cloud_filtered_);
+    pass.setFilterFieldName ("s");
+    pass.setFilterLimits (sMin_, sMax_);
     pass.filter(*cloud_filtered_);
-    pass.setInputCloud (cloud_filtered_);            //设置输入点云
-    pass.setFilterFieldName ("v");         //设置过滤时所需要点云类型的Z字段
-    pass.setFilterLimits (vMin_, vMax_);        //设置在过滤字段的范围
+    pass.setInputCloud (cloud_filtered_);
+    pass.setFilterFieldName ("v");
+    pass.setFilterLimits (vMin_, vMax_);
     pass.filter(*cloud_filtered_);
 
   }
