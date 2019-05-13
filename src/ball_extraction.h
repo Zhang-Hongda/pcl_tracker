@@ -47,7 +47,7 @@ fit_sphere(hsvCloudPtr in, hsvCloudPtr cloud_sphere, pcl::ModelCoefficients::Ptr
 
   seg.segment (*inliers_sphere, *coefficients_sphere);  // Obtain the sphere inliers and coefficients
   // std::cerr << "Sphere coefficients: " << *coefficients_sphere << std::endl;
-  pcl::ExtractIndices<hsvRefPointType> extract;  // Write the sphere inliers to disk
+  pcl::ExtractIndices<hsvRefPointType> extract;
   extract.setInputCloud (in);
   extract.setIndices (inliers_sphere);
   extract.setNegative (false);
@@ -62,11 +62,6 @@ ball_extraction (hsvCloudPtr cloud, std::vector<hsvCloudPtr>& cloud_clusters, st
   // hsvCloudPtr cloud_cluster_all (new hsvCloud());
   // cloud_cluster_all.reset(new hsvCloud());
   cloud_clusters.clear();
-  // pcl::PassThrough<hsvRefPointType> pass;
-  // pass.setInputCloud (cloud);
-  // pass.setFilterFieldName ("z");
-  // pass.setFilterLimits (0.4, 2.0);
-  // pass.filter (*cloud_filtered); 
   cloud_filtered = cloud;
   pcl::search::KdTree<hsvRefPointType>::Ptr tree (new pcl::search::KdTree<hsvRefPointType>);
   tree->setInputCloud (cloud_filtered);
@@ -100,14 +95,6 @@ ball_extraction (hsvCloudPtr cloud, std::vector<hsvCloudPtr>& cloud_clusters, st
   // *cloud_cluster_all += *cloud_cluster;
   }
   return cluster_number == 3;
-  // std::vector<double> radius;
-  // for(std::vector<pcl::ModelCoefficientsPtr>::const_iterator it = coefficients_sphere_set.begin();
-  //   it != coefficients_sphere_set.end(); it++)
-  //   radius.push_back((*it)->values[3]);
-  // if (radius.size() == 0 || *std::max_element(radius.begin(), radius.end()) > 0.02)
-  //   return false;
-  // else
-  //   return true;
 }
 #endif //BALL_EXTRACTION_H
 
