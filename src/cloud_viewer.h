@@ -8,11 +8,12 @@
 
 using namespace std;
 
-template<class pointT>
+template <class pointT>
 class cloudViewer
 {
 private:
   boost::shared_ptr<pcl::visualization::PCLVisualizer> viewer = boost::make_shared<pcl::visualization::PCLVisualizer>();
+
 public:
   cloudViewer(const char *WindowName)
   {
@@ -35,7 +36,7 @@ public:
     // viewer->addCoordinateSystem (1.0);
     viewer->spinOnce(100);
   }
-    void update_PointCloud_HSV(boost::shared_ptr<pcl::PointCloud<pointT> > cloud)
+  void update_PointCloud_HSV(boost::shared_ptr<pcl::PointCloud<pointT> > cloud)
   {
     viewer->removeAllPointClouds();
     pcl::visualization::PointCloudColorHandlerHSVField<pointT> hsv(cloud);
@@ -53,10 +54,10 @@ public:
     // viewer->addCoordinateSystem (1.0);
     viewer->spin();
   }
-  void registerPPCallback(void (*callback)(const pcl::visualization::PointPickingEvent&, void*))
+  void registerPPCallback(void (*callback)(const pcl::visualization::PointPickingEvent &, void *))
   {
-    viewer->registerPointPickingCallback(callback, (void*)&viewer);
+    viewer->registerPointPickingCallback(callback, (void *)&viewer);
   }
 };
 
-#endif // CLOUD_VIEWER_H
+#endif  // CLOUD_VIEWER_H

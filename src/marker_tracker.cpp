@@ -1,13 +1,13 @@
-#include <ros/ros.h>
-#include <tf/tf.h>
-#include <tf_conversions/tf_eigen.h>
-#include <tf/transform_broadcaster.h>
 #include <eigen_conversions/eigen_msg.h>
-#include <iostream>
-#include <sensor_msgs/PointCloud2.h>
 #include <pcl_conversions/pcl_conversions.h>
-#include "cloud_functions.h"
+#include <ros/ros.h>
+#include <sensor_msgs/PointCloud2.h>
+#include <tf/tf.h>
+#include <tf/transform_broadcaster.h>
+#include <tf_conversions/tf_eigen.h>
+#include <iostream>
 #include "ball_extraction.h"
+#include "cloud_functions.h"
 #include "get_position.h"
 
 ros::Publisher pub;
@@ -15,7 +15,7 @@ tf::Transform transform_marker;
 tf::Transform transform_tool;
 boost::shared_ptr<tf::TransformBroadcaster> br;
 boost::shared_ptr<tf::TransformBroadcaster> br_tool;
-float _value[3] = {135.714, 0.587413, 0.560784};
+float _value[3] = { 135.714, 0.587413, 0.560784 };
 float delta = 20.0;
 float delta2 = 0.10;
 float hMax = _value[0] + delta;
@@ -75,7 +75,7 @@ void cloud_cb(const sensor_msgs::PointCloud2ConstPtr &input)
 
   std::vector<hsvCloudPtr> sphere_cloud_set;
   std::vector<pcl::ModelCoefficientsPtr> coefficients_sphere_set;
-  pcl::fromROSMsg(*input, *cloud); 
+  pcl::fromROSMsg(*input, *cloud);
   // pcl::io::savePCDFileASCII("/home/eric/work_space/test_ws/src/pcl_tracker/data/workspace.pcd", *cloud);
   if (show_original_viewer)
     cloud_functions::update_pointcloud(original_viewer, cloud);
@@ -84,10 +84,10 @@ void cloud_cb(const sensor_msgs::PointCloud2ConstPtr &input)
   // cloud_functions::CloudDownSample<RefPointType>(cloud_filtered, cloud_filtered, 0.005);
   cloud_functions::PointCloudXYZRGBtoXYZHSV(*cloud_filtered, *cloud_hsv);
   std::vector<float> boundary;
-  float boundary_list[6] = {hMax, hMin, sMax, sMin, vMax, vMin};
+  float boundary_list[6] = { hMax, hMin, sMax, sMin, vMax, vMin };
   for (int i = 0; i < 6; i++)
     boundary.push_back(boundary_list[i]);
-  cloud_functions::color_filter_hsv(cloud_hsv, cloud_hsv_filtered, boundary); // hsv filter
+  cloud_functions::color_filter_hsv(cloud_hsv, cloud_hsv_filtered, boundary);  // hsv filter
   if (show_filtered_viewer)
     cloud_functions::update_pointcloud(filtered_viewer, cloud_hsv_filtered);
 
@@ -107,7 +107,8 @@ void cloud_cb(const sensor_msgs::PointCloud2ConstPtr &input)
         hsvviewer->addCoordinateSystem(0.3, t, "marker", 0);
         hsvviewer->addCoordinateSystem(0.3, t_tool, "tool", 0);
       }
-      for (std::vector<pcl::ModelCoefficientsPtr>::const_iterator it = coefficients_sphere_set.begin(); it != coefficients_sphere_set.end(); it++)
+      for (std::vector<pcl::ModelCoefficientsPtr>::const_iterator it = coefficients_sphere_set.begin();
+           it != coefficients_sphere_set.end(); it++)
       {
         std::stringstream ss;
         ss << "sphere_" << temp;
@@ -127,20 +128,21 @@ void cloud_cb(const sensor_msgs::PointCloud2ConstPtr &input)
           i++;
           pcl::visualization::PointCloudColorHandlerRandom<pcl::PointXYZHSV> handler(*it);
           clustered_viewer->addPointCloud<pcl::PointXYZHSV>(*it, handler, ss.str());
-          clustered_viewer->setPointCloudRenderingProperties (pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 5, ss.str());
+          clustered_viewer->setPointCloudRenderingProperties(pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 5,
+                                                             ss.str());
           ss.str("");
         }
       }
     }
   }
   cloud_functions::update_pointcloud(hsvviewer, cloud_hsv);
-  // sensor_msgs::PointCloud2 output;        
-  // pcl::toROSMsg(*cloud_filtered, output); 
+  // sensor_msgs::PointCloud2 output;
+  // pcl::toROSMsg(*cloud_filtered, output);
   // pub.publish(output);
 }
 int main(int argc, char **argv)
 {
-  ros::init(argc, argv, "marker_tracker_node"); // Initialize ROS
+  ros::init(argc, argv, "marker_tracker_node");  // Initialize ROS
   ROS_INFO("marker_tracker_node Start!");
   ros::NodeHandle nh;
   nh.getParam("tool_length", tool_length);
@@ -165,5 +167,5 @@ int main(int argc, char **argv)
   // hsvviewer->addCoordinateSystem(0.2,0,0,0,"camera",0);
   ros::Subscriber sub = nh.subscribe("input", 1, cloud_cb);
   // pub = nh.advertise<sensor_msgs::PointCloud2>("output", 1);
-  ros::spin(); // Spin
+  ros::spin();  // Spin
 }
