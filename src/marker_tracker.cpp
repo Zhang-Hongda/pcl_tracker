@@ -16,8 +16,8 @@ tf::Transform transform_tool;
 boost::shared_ptr<tf::TransformBroadcaster> br;
 boost::shared_ptr<tf::TransformBroadcaster> br_tool;
 float _value[3] = { 135.714, 0.587413, 0.560784 };
-float delta = 20.0;
-float delta2 = 0.10;
+float delta = 10.0;
+float delta2 = 0.30;
 float hMax = _value[0] + delta;
 float hMin = _value[0] - delta;
 float sMax = _value[1] + delta2;
@@ -35,10 +35,10 @@ boost::shared_ptr<pcl::visualization::PCLVisualizer> original_viewer;
 
 Eigen::Affine3f t = Eigen::Affine3f::Identity();
 
-double tool_length = 0.15;
-bool show_filtered_viewer = true;
-bool show_clustered_viewer = true;
-bool show_original_viewer = true;
+double tool_length;
+bool show_filtered_viewer;
+bool show_clustered_viewer;
+bool show_original_viewer;
 
 void pp_callback_hsv(const pcl::visualization::PointPickingEvent &event, void *viewer_void)
 {
@@ -145,10 +145,10 @@ int main(int argc, char **argv)
   ros::init(argc, argv, "marker_tracker_node");  // Initialize ROS
   ROS_INFO("marker_tracker_node Start!");
   ros::NodeHandle nh;
-  nh.getParam("tool_length", tool_length);
-  nh.getParam("show_filtered_viewer", show_filtered_viewer);
-  nh.getParam("show_clustered_viewer", show_clustered_viewer);
-  nh.getParam("show_original_viewer", show_original_viewer);
+  ros::param::param("~tool_length", tool_length, 0.0);
+  ros::param::param("~show_filtered_viewer", show_filtered_viewer, false);
+  ros::param::param("~show_clustered_viewer", show_clustered_viewer, false);
+  ros::param::param("~show_original_viewer", show_original_viewer, false);
   ROS_INFO("tool_length: %f", tool_length);
   ROS_INFO("show_fitered_viewer: %s", std::to_string(show_filtered_viewer).c_str());
   ROS_INFO("show_clustered_viewer: %s", std::to_string(show_clustered_viewer).c_str());
@@ -159,7 +159,6 @@ int main(int argc, char **argv)
     filtered_viewer = cloud_functions::hsvVis("filtered cloud");
   if (show_original_viewer)
     original_viewer = cloud_functions::rgbVis("original cloud");
-
   br.reset(new tf::TransformBroadcaster());
   br_tool.reset(new tf::TransformBroadcaster());
   hsvviewer->registerPointPickingCallback(pp_callback_hsv, (void *)&hsvviewer);

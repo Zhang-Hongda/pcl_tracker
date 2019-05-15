@@ -1,3 +1,4 @@
+#
 #ifndef GET_POSITON_H
 #define GET_POSITON_H
 
@@ -84,8 +85,9 @@ Eigen::Affine3f get_position(std::vector<pcl::ModelCoefficientsPtr> coefficients
     x = y.cross(z).normalized();
     T = center_set[2];
   }
-  Eigen::AngleAxisf r_v;
-  r_v.fromRotationMatrix(R);
+  R.col(0) = x;
+  R.col(1) = y;
+  R.col(2) = z;
   t.rotate(R);
   t.translation() = T.matrix();
   // std::cout<<"R\n" << R.matrix() << "\n";

@@ -1,7 +1,6 @@
 #
 #if !defined(BALL_EXTRACTION_H)
 #define BALL_EXTRACTION_H
-
 #include <pcl/ModelCoefficients.h>
 #include <pcl/features/normal_3d.h>
 #include <pcl/filters/extract_indices.h>
@@ -18,10 +17,11 @@
 #include <pcl/surface/mls.h>
 #include <pcl/visualization/pcl_visualizer.h>
 #include <pcl/surface/impl/mls.hpp>
-typedef pcl::PointXYZHSV hsvRefPointType;
-typedef pcl::PointCloud<hsvRefPointType> hsvCloud;
-typedef hsvCloud::Ptr hsvCloudPtr;
+#include "cloud_functions.h"
 
+int min_cluster_ize = 50;
+float min_sphere_radius = 0.02;
+float max_sphere_radius = 0.04;
 void fit_sphere(hsvCloudPtr in, hsvCloudPtr cloud_sphere, pcl::ModelCoefficients::Ptr coefficients_sphere)
 {
   pcl::NormalEstimation<hsvRefPointType, pcl::Normal> ne;
@@ -45,7 +45,6 @@ void fit_sphere(hsvCloudPtr in, hsvCloudPtr cloud_sphere, pcl::ModelCoefficients
   pcl::PointIndices::Ptr inliers_sphere(new pcl::PointIndices);
 
   seg.segment(*inliers_sphere, *coefficients_sphere);  // Obtain the sphere inliers and coefficients
-  // std::cerr << "Sphere coefficients: " << *coefficients_sphere << std::endl;
   pcl::ExtractIndices<hsvRefPointType> extract;
   extract.setInputCloud(in);
   extract.setIndices(inliers_sphere);
@@ -61,21 +60,26 @@ bool ball_extraction(hsvCloudPtr cloud, std::vector<hsvCloudPtr>& cloud_clusters
   hsvCloudPtr cloud_filtered(new hsvCloud());
   // hsvCloudPtr cloud_cluster_all (new hsvCloud());
   // cloud_cluster_all.reset(new hsvCloud());
+  pcl::PassThrough<hsvRefPointType> pass;
+  pass.setInputCloud(cloud);
+  pass.setFilterFieldName("z");
+  pass.setFilterLimits(0.4, 1.5);
+  // pass.setFilterLimitsNegative (true);
+  pass.filter(*cloud_filtered);
+  // cloud_filtered = cloud;
   cloud_clusters.clear();
-  cloud_filtered = cloud;
   pcl::search::KdTree<hsvRefPointType>::Ptr tree(new pcl::search::KdTree<hsvRefPointType>);
   tree->setInputCloud(cloud_filtered);
   std::vector<pcl::PointIndices> cluster_indices;
   pcl::EuclideanClusterExtraction<hsvRefPointType> ec;
-  ec.setClusterTolerance(0.02);
-  ec.setMinClusterSize(50);
+  ec.setClusterTolerance(0.01);
+  ec.setMinClusterSize(min_cluster_ize);
   ec.setMaxClusterSize(25000);
   ec.setSearchMethod(tree);
   ec.setInputCloud(cloud_filtered);
   ec.extract(cluster_indices);
 
   // std::cout << "Find " << cluster_indices.size() << " balls" << "\n";
-  int cluster_number = 0;
   for (std::vector<pcl::PointIndices>::const_iterator it = cluster_indices.begin(); it != cluster_indices.end(); ++it)
   {
     hsvCloudPtr cloud_cluster(new hsvCloud());
@@ -88,12 +92,15 @@ bool ball_extraction(hsvCloudPtr cloud, std::vector<hsvCloudPtr>& cloud_clusters
     cloud_cluster->height = 1;
     cloud_cluster->is_dense = true;
     fit_sphere(cloud_cluster, sphere_cloud, coefficients_sphere);  // fit sphere and save coefficients
-    sphere_cloud_set.push_back(sphere_cloud);
-    coefficients_sphere_set.push_back(coefficients_sphere);
-    cloud_clusters.push_back(cloud_cluster);
-    cluster_number++;
+    if (coefficients_sphere->values[3] < max_sphere_radius && coefficients_sphere->values[3] < min_sphere_radius)
+    {
+      sphere_cloud_set.push_back(sphere_cloud);
+      coefficients_sphere_set.push_back(coefficients_sphere);
+      cloud_clusters.push_back(cloud_cluster);
+    }
     // *cloud_cluster_all += *cloud_cluster;
   }
-  return cluster_number == 3;
+
+  return coefficients_sphere_set.size() == 3;
 }
 #endif  // BALL_EXTRACTION_H
