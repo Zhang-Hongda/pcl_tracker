@@ -1,7 +1,7 @@
 <launch>
 	<arg name="topic" default="/kinect2/qhd/points"/>
-    <include file="$(find tf_base2camera)/launch/tf_base2camera.launch"/>
-    <!--node name="transform_publisher_node" pkg="transform_publisher" type="transform_publisher" /-->
+    <!--include file="$(find tf_base2camera)/launch/tf_base2camera.launch"/-->
+    <node name="transform_publisher_node" pkg="transform_publisher" type="transform_publisher" />
 	<include file="$(find pcl_tracker)/launch/marker_tracker.launch">
 		<arg name="topic" value="$(arg topic)"/>
 	</include>

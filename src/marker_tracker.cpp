@@ -72,7 +72,7 @@ void cloud_cb(const sensor_msgs::PointCloud2ConstPtr &input)
   hsvviewer->removeAllShapes();
   hsvviewer->removeCoordinateSystem("marker");
   hsvviewer->removeCoordinateSystem("tool");
-
+  ros::param::param("~tool_length", tool_length, 0.0);
   std::vector<hsvCloudPtr> sphere_cloud_set;
   std::vector<pcl::ModelCoefficientsPtr> coefficients_sphere_set;
   pcl::fromROSMsg(*input, *cloud);
@@ -145,7 +145,6 @@ int main(int argc, char **argv)
   ros::init(argc, argv, "marker_tracker_node");  // Initialize ROS
   ROS_INFO("marker_tracker_node Start!");
   ros::NodeHandle nh;
-  ros::param::param("~tool_length", tool_length, 0.0);
   ros::param::param("~show_filtered_viewer", show_filtered_viewer, false);
   ros::param::param("~show_clustered_viewer", show_clustered_viewer, false);
   ros::param::param("~show_original_viewer", show_original_viewer, false);
