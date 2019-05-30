@@ -1,11 +1,14 @@
 <launch>
-    <arg name="topic" default="/kinect2/sd/points"/>
-    <node name="pc_pub_rgb" type="pc_pub_rgb" pkg="pc_clusterd" args="$(find pcl_tracker)/data/work_space_xyzrgb.pcd" output="screen" respawn="true"  />
-    <node name="marker_tracker_node" type="marker_tracker_node" pkg="pcl_tracker" args="input:=$(arg topic)" output="screen" respawn="true"  />
-    <include file="$(find easy_handeye)/launch/publish.launch">
-	    <arg name="eye_on_hand" value="false"/>
-	</include>
-	<include file="$(find pcl_tracker)/launch/ur5_sim_gazebo.launch"> 
-		<arg name="show_rviz" value="true"/>
-	</include> 
+    <arg name="topic" default="/kinect2/qhd/points"/>
+    <arg name="rate" default="10"/>
+    <include file="$(find pointcloud_publisher)/launch/pointcloud_publisher.launch">
+        <arg name="topic_name" value="$(arg topic)"/>
+        <arg name="rate" value="$(arg rate)"/>
+    </include>
+    <node name="marker_tracker_node" type="marker_tracker_node" pkg="pcl_tracker" args="input:=$(arg topic)" output="screen" respawn="true">
+        <rosparam file="$(find pcl_tracker)/param/config.yaml" command="load"/>
+    </node>
+    <include file="$(find pcl_tracker)/launch/ur5_sim_gazebo.launch"> 
+        <arg name="show_rviz" value="true"/>
+    </include> 
 </launch>
