@@ -64,6 +64,7 @@ void pp_callback_hsv(const pcl::visualization::PointPickingEvent &event, void *v
 }
 void cloud_cb(const sensor_msgs::PointCloud2ConstPtr &input)
 {
+  CloudPtr temp_cloud(new Cloud());
   cloud.reset(new Cloud());
   cloud_filtered.reset(new Cloud());
   cloud_hsv.reset(new hsvCloud());
@@ -80,7 +81,13 @@ void cloud_cb(const sensor_msgs::PointCloud2ConstPtr &input)
   if (show_original_viewer)
     cloud_functions::update_pointcloud(original_viewer, cloud);
   std::vector<int> mapping;
-  pcl::removeNaNFromPointCloud(*cloud, *cloud_filtered, mapping);
+  pcl::removeNaNFromPointCloud(*cloud, *temp_cloud, mapping);
+  pcl::PassThrough<RefPointType> pass;
+  pass.setInputCloud(temp_cloud);
+  pass.setFilterFieldName("z");
+  pass.setFilterLimits(0.0, 1.2);
+  // pass.setFilterLimitsNegative (true);
+  pass.filter(*cloud_filtered);
   // cloud_functions::CloudDownSample<RefPointType>(cloud_filtered, cloud_filtered, 0.005);
   cloud_functions::PointCloudXYZRGBtoXYZHSV(*cloud_filtered, *cloud_hsv);
   std::vector<float> boundary;
