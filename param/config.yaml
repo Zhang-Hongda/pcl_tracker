@@ -1,6 +1,6 @@
 #tool length in meters
 tool_length: 0.14
 #point cloud viewer
-show_filtered_viewer: false
-show_clustered_viewer: false
-show_original_viewer: false
+show_filtered_viewer: true
+show_clustered_viewer: true
+show_original_viewer: true
