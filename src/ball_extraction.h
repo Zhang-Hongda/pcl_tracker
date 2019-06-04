@@ -19,7 +19,7 @@
 #include <pcl/surface/impl/mls.hpp>
 #include "cloud_functions.h"
 
-int min_cluster_ize = 50;
+int min_cluster_size = 50;
 float min_sphere_radius = 0.02;
 float max_sphere_radius = 0.04;
 void fit_sphere(hsvCloudPtr in, hsvCloudPtr cloud_sphere, pcl::ModelCoefficients::Ptr coefficients_sphere)
@@ -73,7 +73,7 @@ bool ball_extraction(hsvCloudPtr cloud, std::vector<hsvCloudPtr>& cloud_clusters
   std::vector<pcl::PointIndices> cluster_indices;
   pcl::EuclideanClusterExtraction<hsvRefPointType> ec;
   ec.setClusterTolerance(0.01);
-  ec.setMinClusterSize(min_cluster_ize);
+  ec.setMinClusterSize(min_cluster_size);
   ec.setMaxClusterSize(25000);
   ec.setSearchMethod(tree);
   ec.setInputCloud(cloud_filtered);
