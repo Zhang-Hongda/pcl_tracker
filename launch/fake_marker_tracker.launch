@@ -1,7 +1,7 @@
 <launch>
     <arg name="topic" default="/kinect2/qhd/points"/>
     <arg name="rate" default="10"/>
-    <include file="$(find pointcloud_publisher)/launch/pointcloud_publisher.launch">
+    <include file="$(find pointcloud_publisher_qt)/launch/pointcloud_publisher_qt.launch">
         <arg name="topic_name" value="$(arg topic)"/>
         <arg name="rate" value="$(arg rate)"/>
     </include>
